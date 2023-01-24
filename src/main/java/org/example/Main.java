@@ -28,7 +28,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         accountName = System.getenv("ACCOUNT_NAME");
-        clientId =  System.getenv("");
+        clientId =  System.getenv("AZURE_CLIENT_ID");
         host = System.getenv("HOST");
         tokenUri = System.getenv("TOKENURI");
 
@@ -36,12 +36,12 @@ public class Main {
         storageUri = "https://" + accountName + "."
                 + host;
 
-        System.out.println("new sdk test: ");
-        newSdkTest();
-
-        System.out.println("");
-        System.out.println("##############");
-        System.out.println("");
+//        System.out.println("new sdk test: ");
+//        newSdkTest();
+//
+//        System.out.println("");
+//        System.out.println("##############");
+//        System.out.println("");
 
         System.out.println("old with new sdk test: ");
         oldWithNewToken();
@@ -57,14 +57,14 @@ public class Main {
     public static void oldSdkTest(){
         try {
             MSICredentials msiCreds = new MSICredentials().withClientId(clientId);
-            String msiToken = msiCreds.getToken(tokenUri);
+            String msiToken = msiCreds.getToken(null);
             System.out.println("msiCreds: " + msiToken);
-            CloudBlobClient client = new CloudBlobClient(new StorageUri(new URI(storageUri)),
-                                                         new StorageCredentialsToken(accountName, msiToken));
-
-            for (CloudBlobContainer cc : client.listContainers("")) {
-                System.out.println("\t" + cc.getName());
-            }
+//            CloudBlobClient client = new CloudBlobClient(new StorageUri(new URI(storageUri)),
+//                                                         new StorageCredentialsToken(accountName, msiToken));
+//
+//            for (CloudBlobContainer cc : client.listContainers("")) {
+//                System.out.println("\t" + cc.getName());
+//            }
         } catch (Exception e){
             System.out.println(e.getMessage() + e.getStackTrace());
 //            throw e;
@@ -73,9 +73,12 @@ public class Main {
 
     public static void newSdkTest(){
         try {
+            DefaultAzureCredential creds = new DefaultAzureCredentialBuilder().build();
+
             BlobServiceClient client = new BlobServiceClientBuilder()
                     .endpoint(storageUri)
-                    .credential(new DefaultAzureCredentialBuilder().build()).buildClient();
+                    .credential(creds).buildClient();
+
             System.out.println("\nListing blobs...");
 
             // List the blob(s) in the container.
@@ -91,15 +94,15 @@ public class Main {
     public static void oldWithNewToken() throws URISyntaxException {
         try {
             DefaultAzureCredential creds = new DefaultAzureCredentialBuilder().build();
-            AccessToken token = creds.getToken(new TokenRequestContext().addScopes("test")).block(); // TODO pass in correct context
+            AccessToken token = creds.getToken(new TokenRequestContext().addScopes(".default")).block(); // TODO pass in correct context
 
             System.out.println("token: " + token);
-            CloudBlobClient client = new CloudBlobClient(new StorageUri(new URI(storageUri)),
-                    new StorageCredentialsToken(accountName, token.getToken()));
-
-            for (CloudBlobContainer cc : client.listContainers("")) {
-                System.out.println("\t" + cc.getName());
-            }
+//            CloudBlobClient client = new CloudBlobClient(new StorageUri(new URI(storageUri)),
+//                    new StorageCredentialsToken(accountName, token.getToken()));
+//
+//            for (CloudBlobContainer cc : client.listContainers("")) {
+//                System.out.println("\t" + cc.getName());
+//            }
         } catch (Exception e){
             System.out.println(e.getMessage() + e.getStackTrace());
 //            throw e;
