@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'org.example'
@@ -19,6 +20,15 @@ dependencies {
 
 }
 
+application {
+    mainClassName = project.hasProperty("Main") ? project.getProperty("Main") : "Main"
+}
+
 test {
     useJUnitPlatform()
+}
+
+task execute(type:JavaExec) {
+    main = project.hasProperty("Main") ? getProperty("Main") : "Main"
+    classpath = sourceSets.main.runtimeClasspath
 }
