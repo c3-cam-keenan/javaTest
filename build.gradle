@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation "com.azure:azure-storage-blob:12.20.2"
+    implementation "com.azure:azure-identity:1.7.3"
+    implementation "com.microsoft.azure:azure-storage:8.3.0"
+    implementation "com.microsoft.azure:azure-client-authentication:1.7.5"
+
+}
+
+test {
+    useJUnitPlatform()
+}
