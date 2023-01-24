@@ -24,7 +24,7 @@ public class Main {
     public static String host;
     public static String tokenUri;
 
-    public static String storageUri = "";
+    public static String storageUri;
 
     public static void main(String[] args) throws Exception {
         accountName = System.getenv("ACCOUNT_NAME");
