@@ -50,8 +50,8 @@ public class Main {
         System.out.println("##############");
         System.out.println("");
 
-        System.out.println("old sdk test: ");
-        oldSdkTest();
+//        System.out.println("old sdk test: ");
+//        oldSdkTest();
     }
 
     public static void oldSdkTest(){
@@ -74,12 +74,13 @@ public class Main {
     public static void newSdkTest(){
         try {
             DefaultAzureCredential creds = new DefaultAzureCredentialBuilder().build();
-            AccessToken token = creds.getToken(new TokenRequestContext().addScopes(".default")).block(); // TODO pass in correct context
+            AccessToken token = creds.getToken(new TokenRequestContext().addScopes(".default")).block();
             System.out.println("token: " + token.getToken());
 
             BlobServiceClient client = new BlobServiceClientBuilder()
-                    .endpoint(storageUri)
-                    .credential(creds).buildClient();
+                    .endpoint(System.getenv("STORAGE_URL"))
+                    .credential(new DefaultAzureCredentialBuilder().build())
+                    .buildClient();
 
             System.out.println("\nListing blobs...");
 
@@ -96,7 +97,7 @@ public class Main {
     public static void oldWithNewToken() throws URISyntaxException {
         try {
             DefaultAzureCredential creds = new DefaultAzureCredentialBuilder().build();
-            AccessToken token = creds.getToken(new TokenRequestContext().addScopes(".default")).block(); // TODO pass in correct context
+            AccessToken token = creds.getToken(new TokenRequestContext().addScopes(".default")).block();
 
             System.out.println("token: " + token.getToken());
 //            CloudBlobClient client = new CloudBlobClient(new StorageUri(new URI(storageUri)),
