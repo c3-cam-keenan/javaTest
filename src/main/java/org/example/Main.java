@@ -99,7 +99,7 @@ public class Main {
             DefaultAzureCredential creds = new DefaultAzureCredentialBuilder().build();
             AccessToken token = creds.getToken(new TokenRequestContext().addScopes(".default")).block();
 
-//            System.out.println("token: " + token.getToken());
+            System.out.println("token: " + System.getenv("AZURE_TOKEN"));
             CloudBlobClient client = new CloudBlobClient(new StorageUri(new URI(storageUri)),
                     new StorageCredentialsToken(accountName, System.getenv("AZURE_TOKEN")));
 
