@@ -21,14 +21,9 @@ dependencies {
 }
 
 application {
-    mainClassName = project.hasProperty("Main") ? project.getProperty("Main") : "Main"
+    mainClassName = "org.example.Main"
 }
 
 test {
     useJUnitPlatform()
-}
-
-task execute(type:JavaExec) {
-    main = project.hasProperty("Main") ? getProperty("Main") : "Main"
-    classpath = sourceSets.main.runtimeClasspath
 }
