@@ -36,12 +36,12 @@ public class Main {
         storageUri = "https://" + accountName + "."
                 + host;
 
-//        System.out.println("new sdk test: ");
-//        newSdkTest();
-//
-//        System.out.println("");
-//        System.out.println("##############");
-//        System.out.println("");
+        System.out.println("new sdk test: ");
+        newSdkTest();
+
+        System.out.println("");
+        System.out.println("##############");
+        System.out.println("");
 
         System.out.println("old with new sdk test: ");
         oldWithNewToken();
@@ -74,6 +74,8 @@ public class Main {
     public static void newSdkTest(){
         try {
             DefaultAzureCredential creds = new DefaultAzureCredentialBuilder().build();
+            AccessToken token = creds.getToken(new TokenRequestContext().addScopes(".default")).block(); // TODO pass in correct context
+            System.out.println("token: " + token.getToken());
 
             BlobServiceClient client = new BlobServiceClientBuilder()
                     .endpoint(storageUri)
@@ -96,7 +98,7 @@ public class Main {
             DefaultAzureCredential creds = new DefaultAzureCredentialBuilder().build();
             AccessToken token = creds.getToken(new TokenRequestContext().addScopes(".default")).block(); // TODO pass in correct context
 
-            System.out.println("token: " + token);
+            System.out.println("token: " + token.getToken());
 //            CloudBlobClient client = new CloudBlobClient(new StorageUri(new URI(storageUri)),
 //                    new StorageCredentialsToken(accountName, token.getToken()));
 //
