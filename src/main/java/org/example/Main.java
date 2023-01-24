@@ -108,7 +108,7 @@ public class Main {
             }
         } catch (Exception e){
             System.out.println(e.getMessage() + e.getStackTrace());
-//            throw e;
+            throw e;
         }
     }
 }
